@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <h2>📋 Registered Patients</h2>
+
+    {% if patients %}
+    <div class="table-modern-wrap">
+        <table class="table-modern">
+            <tr><th>Name</th><th>Email</th><th>Age</th><th>Contact</th></tr>
+            {% for p in patients %}
+            <tr>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>{{ p[3] or 'N/A' }}</td>
+                <td>{{ p[4] or 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <div class="card">
+        <p>No patients registered yet.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline">← Back to Dashboard</a>
+</div>
+{% endblock %}

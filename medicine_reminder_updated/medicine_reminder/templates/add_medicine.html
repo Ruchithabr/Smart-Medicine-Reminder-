@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+{% block content %}
+<div class="form-page">
+    <h2>💊 Add a Medicine</h2>
+    <p class="page-subtitle">Fill in a few details and we'll handle the reminders for you.</p>
+
+    <form method="POST" class="form-card">
+
+        {% if role in ['doctor', 'caregiver'] %}
+        <div class="form-section">
+            <h3 class="form-section-title">Who is this for?</h3>
+            <div class="form-group">
+                <label for="patient_id">Patient</label>
+                <select id="patient_id" name="patient_id" required>
+                    <option value="">Select a patient</option>
+                    {% for patient in patients %}
+                        <option value="{{ patient[0] }}">{{ patient[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="form-section">
+            <h3 class="form-section-title">What medicine is it?</h3>
+
+            <div class="form-group">
+                <label for="name">Medicine name</label>
+                <input type="text" id="name" name="name" placeholder="e.g., Paracetamol" required>
+            </div>
+
+            <div class="form-group">
+                <label>Type <span class="hint-text">(tap the picture that matches)</span></label>
+                <div class="medicine-type-grid">
+                    <input type="radio" id="type_tablet" name="type" value="tablet" class="type-radio" checked>
+                    <label for="type_tablet" class="type-option">
+                        <span class="type-icon">{{ macros.medicine_icon('tablet', 'pick1', 40) }}</span>
+                        <span class="type-name">Tablet</span>
+                    </label>
+
+                    <input type="radio" id="type_syrup" name="type" value="syrup" class="type-radio">
+                    <label for="type_syrup" class="type-option">
+                        <span class="type-icon">{{ macros.medicine_icon('syrup', 'pick2', 40) }}</span>
+                        <span class="type-name">Syrup</span>
+                    </label>
+
+                    <input type="radio" id="type_drops" name="type" value="drops" class="type-radio">
+                    <label for="type_drops" class="type-option">
+                        <span class="type-icon">{{ macros.medicine_icon('drops', 'pick3', 40) }}</span>
+                        <span class="type-name">Drops</span>
+                    </label>
+
+                    <input type="radio" id="type_ointment" name="type" value="ointment" class="type-radio">
+                    <label for="type_ointment" class="type-option">
+                        <span class="type-icon">{{ macros.medicine_icon('ointment', 'pick4', 40) }}</span>
+                        <span class="type-name">Ointment</span>
+                    </label>
+
+                    <input type="radio" id="type_injection" name="type" value="injection" class="type-radio">
+                    <label for="type_injection" class="type-option">
+                        <span class="type-icon">{{ macros.medicine_icon('injection', 'pick5', 40) }}</span>
+                        <span class="type-name">Injection</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dosage">Dosage</label>
+                <input type="text" id="dosage" name="dosage" placeholder="e.g., 1 tablet, 5ml, 2 drops">
+            </div>
+
+            <div class="form-group">
+                <label for="food_timing">Take it...</label>
+                <select id="food_timing" name="food_timing">
+                    <option value="either">No preference (before or after food)</option>
+                    <option value="before">Before food</option>
+                    <option value="after">After food</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="form-section-title">When should we remind you?</h3>
+
+            <div class="form-group">
+                <label for="frequency">How often</label>
+                <select id="frequency" name="frequency">
+                    <option value="once">Once a day</option>
+                    <option value="twice">Twice a day</option>
+                    <option value="thrice">Three times a day</option>
+                    <option value="weekly">Once a week</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="start_date">Start date</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End date <span class="hint-text">(optional)</span></label>
+                    <input type="date" id="end_date" name="end_date">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reminder_time">Reminder time</label>
+                <input type="time" id="reminder_time" name="reminder_time" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large form-submit">Add Medicine</button>
+    </form>
+</div>
+{% endblock %}

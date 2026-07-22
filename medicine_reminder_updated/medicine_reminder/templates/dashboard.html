@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+{% block content %}
+<div class="hero">
+    <h1>Smart Medicine Reminder System</h1>
+    <p>Manage medications, track adherence, and get AI‑powered insights</p>
+</div>
+<div class="cards-container">
+    {% if role in ['doctor', 'caregiver'] %}
+    <div class="card">
+        <h3>👤 Register Patient</h3>
+        <p>Add a new patient to the system</p>
+        <a href="/register" class="btn btn-primary">Register Patient</a>
+    </div>
+    {% endif %}
+    <div class="card">
+        <h3>💊 Add Medicine</h3>
+        <p>Add a new medication</p>
+        <a href="/add_medicine" class="btn btn-primary">Add Medicine</a>
+    </div>
+    <div class="card">
+        <h3>✅ Log Medicine</h3>
+        <p>Record when it was taken</p>
+        <a href="/dashboard#today-reminders" class="btn btn-primary">Log Medicine</a>
+    </div>
+    {% if role == 'patient' %}
+    <div class="card">
+        <h3>🤖 AI Prediction</h3>
+        <p>Get an adherence risk prediction</p>
+        <a href="/ai-prediction" class="btn btn-primary">AI Prediction</a>
+    </div>
+    <div class="card">
+        <h3>📊 View Report</h3>
+        <p>See your adherence report</p>
+        <a href="/reports" class="btn btn-primary">View Report</a>
+    </div>
+    <div class="card">
+        <h3>💧 Health Habits</h3>
+        <p>Track water, sleep &amp; exercise</p>
+        <a href="/habits" class="btn btn-primary">Manage Habits</a>
+    </div>
+    {% endif %}
+    {% if role in ['doctor', 'caregiver'] %}
+    <div class="card">
+        <h3>👥 View Patients</h3>
+        <p>List all patients</p>
+        <a href="/patients" class="btn btn-primary">View Patients</a>
+    </div>
+    {% endif %}
+</div>
+<hr>
+<div class="status-box">
+    <strong>{{ status_message }}</strong>
+</div>
+{% if total_today > 0 %}
+<div class="progress-bar-container">
+    <div class="progress-bar" style="--progress-width: {{ (taken_today / total_today * 100)|round(1) }}%;">
+        {{ (taken_today / total_today * 100)|round(1) }}%
+    </div>
+</div>
+{% endif %}
+<div id="today-reminders">
+    <h2>📋 Today's Reminders</h2>
+    {% if medicines %}
+        <ul class="reminder-list">
+        {% for med in medicines %}
+            <li class="reminder-item">
+                <span class="reminder-icon">{{ macros.medicine_icon(med[2], 'dash' ~ med[0], 32) }}</span>
+                <span class="reminder-info">
+                    <strong>{{ med[1] }}</strong>
+                    <span class="reminder-meta">{{ med[3] }} · {{ med[4][11:16] }}</span>
+                </span>
+                <span class="reminder-actions">
+                    <form method="POST" action="/mark_taken/{{ med[0] }}" style="display:inline;">
+                        <button type="submit" class="btn btn-success btn-sm">✔ Taken</button>
+                    </form>
+                    <form method="POST" action="/snooze/{{ med[0] }}" style="display:inline;">
+                        <button type="submit" class="btn btn-warning btn-sm">⏰ Snooze 5min</button>
+                    </form>
+                </span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending medicines right now. Great job! 🎉</p>
+    {% endif %}
+</div>
+{% if role == 'patient' %}
+<div id="water-tracker">
+    <h2>💧 Water Intake</h2>
+    {% if water_habit_id %}
+        <p>Today: {{ water_total }} ml
+           <a href="/habits?log_water=1&amount=250&habit_id={{ water_habit_id }}" class="btn btn-sm">+250ml</a>
+        </p>
+    {% else %}
+        <p>You haven't set up water tracking yet.
+           <a href="/habits" class="btn btn-sm">Set it up</a>
+        </p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

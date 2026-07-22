@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <h2>📊 Weekly Adherence</h2>
+    <a href="/download-pdf" class="btn btn-primary form-submit" style="margin-bottom: 1.5rem;">📥 Download PDF Report</a>
+
+    {% if weekly %}
+    <div class="table-modern-wrap">
+        <table class="table-modern">
+            <tr><th>Date</th><th>Compliance</th></tr>
+            {% for row in weekly %}
+            {% set pct = (row[2]/row[1]*100)|round(1) if row[1] > 0 else 0 %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>
+                    <div class="compliance-bar-track">
+                        <div class="compliance-bar-fill {% if pct >= 80 %}good{% elif pct >= 50 %}okay{% else %}poor{% endif %}"
+                             style="width: {{ pct }}%;"></div>
+                    </div>
+                    <span class="compliance-pct">{{ pct }}%</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <div class="card">
+        <p>📊 No data available for the past 7 days. Add a medicine and take it to see your adherence report.</p>
+    </div>
+    {% endif %}
+
+    <h2 class="section-heading">Recent Missed Doses</h2>
+    {% if missed %}
+    <div class="table-modern-wrap">
+        <table class="table-modern">
+            <tr><th>Medicine</th><th>Scheduled</th><th>Status</th></tr>
+            {% for miss in missed %}
+            <tr>
+                <td>{{ miss[0] }}</td>
+                <td>{{ miss[1] }}</td>
+                <td><span class="status-pill missed">{{ miss[2] }}</span></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <div class="card">
+        <p>✅ No missed doses in the past! Great job! 🎉</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

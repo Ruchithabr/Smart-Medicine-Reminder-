@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <h2>💧 Health Habits</h2>
+    <p class="page-subtitle">Track water, sleep, and exercise alongside your medicines.</p>
+
+    <form method="POST" class="form-card">
+        <div class="form-section">
+            <h3 class="form-section-title">Add a new habit</h3>
+            <div class="form-group">
+                <label for="habit_type">Habit type</label>
+                <select id="habit_type" name="habit_type">
+                    <option value="water">💧 Water</option>
+                    <option value="exercise">🏃 Exercise</option>
+                    <option value="sleep">😴 Sleep</option>
+                    <option value="custom">📝 Custom</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="goal">Goal</label>
+                <input type="text" id="goal" name="goal" placeholder="e.g., 2000ml, 30 mins, 8 hours">
+            </div>
+            <div class="form-group">
+                <label for="instruction">Note <span class="hint-text">(optional)</span></label>
+                <input type="text" id="instruction" name="instruction" placeholder="Any extra instruction for yourself">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">Add Habit</button>
+    </form>
+
+    <h3 class="section-heading">Your Habits</h3>
+    {% if habits %}
+    <div class="habits-grid">
+        {% for habit in habits %}
+        <div class="habit-card">
+            <span class="habit-icon">
+                {% if habit[2] == 'water' %}💧{% elif habit[2] == 'exercise' %}🏃{% elif habit[2] == 'sleep' %}😴{% else %}📝{% endif %}
+            </span>
+            <div class="habit-details">
+                <strong>{{ habit[2]|capitalize }}</strong>
+                <span class="habit-goal">Goal: {{ habit[3] or 'Not set' }}</span>
+                {% if habit[4] %}<span class="habit-note">{{ habit[4] }}</span>{% endif %}
+            </div>
+            {% if habit[2] == 'water' %}
+            <a href="/habits?log_water=1&amount=250&habit_id={{ habit[0] }}" class="btn btn-sm">+250ml</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>You haven't added any habits yet. Start with your water goal above! 🌱</p>
+    {% endif %}
+</div>
+{% endblock %}

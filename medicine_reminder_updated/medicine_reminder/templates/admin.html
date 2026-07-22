@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>👑 Admin Dashboard</h2>
+
+<!-- Link Caregiver to Patient -->
+<div class="card">
+    <h3>Link Caregiver to Patient</h3>
+    <form method="POST" action="{{ url_for('admin_link') }}">
+        <label>Caregiver:</label>
+        <select name="caregiver_id" required>
+            <option value="">-- Select Caregiver --</option>
+            {% for user in users if user[3] == 'caregiver' %}
+                <option value="{{ user[0] }}">{{ user[1] }} ({{ user[2] }})</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label>Patient:</label>
+        <select name="patient_id" required>
+            <option value="">-- Select Patient --</option>
+            {% for user in users if user[3] == 'patient' %}
+                <option value="{{ user[0] }}">{{ user[1] }} ({{ user[2] }})</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Create Link</button>
+    </form>
+</div>
+
+<!-- Existing Links -->
+<div class="card">
+    <h3>Existing Caregiver-Patient Links</h3>
+    {% if links %}
+        <table>
+            <tr><th>Caregiver</th><th>Patient</th><th>Action</th></tr>
+            {% for link in links %}
+            <tr>
+                <td>{{ link[1] }}</td>
+                <td>{{ link[3] }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin_unlink', caregiver_id=link[0], patient_id=link[2]) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Unlink</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No links yet.</p>
+    {% endif %}
+</div>
+
+<!-- All Users -->
+<div class="card">
+    <h3>All Users</h3>
+    <table>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th></tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>{{ user[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <h2>🤖 AI Prediction</h2>
+
+    {% if state == 'no_meds' %}
+        <div class="card">
+            <p>📭 You don't have any medicines scheduled for the future.</p>
+            <p>👉 <a href="{{ url_for('add_medicine') }}">Add a medicine</a> first, then the AI can predict your adherence.</p>
+        </div>
+    {% elif state == 'not_enough_data' %}
+        <div class="card">
+            <p>📊 Not enough data yet. You have only {{ total_past }} recorded dose(s) in the last 30 days.</p>
+            <p>💡 Continue taking your medicines as scheduled. The AI will start predicting after at least 5 doses.</p>
+        </div>
+    {% else %}
+        <div class="card ai-result-card risk-{{ risk_level }}">
+            <p>Based on your last 30 days ({{ total_past }} doses, {{ adherence }}% taken):</p>
+            <p class="ai-risk-number">{{ miss_chance }}% chance of missing a dose tomorrow</p>
+            <p>📌 Recommendation: {{ recommendation }}</p>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline">← Back to Dashboard</a>
+</div>
+{% endblock %}

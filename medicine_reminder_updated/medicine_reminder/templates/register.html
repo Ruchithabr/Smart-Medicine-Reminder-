@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block body_class %}register-page{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box auth-box-wide">
+        <h2>Create your account</h2>
+        <p class="page-subtitle">Takes about 2 minutes.</p>
+        <form method="POST" class="form-card form-card-plain">
+            <div class="form-group">
+                <label for="reg_email">Email</label>
+                <input type="email" id="reg_email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_full_name">Full name</label>
+                <input type="text" id="reg_full_name" name="full_name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="reg_password">Password</label>
+                <input type="password" id="reg_password" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg_age">Age</label>
+                    <input type="number" id="reg_age" name="age" placeholder="Age">
+                </div>
+                <div class="form-group">
+                    <label for="reg_gender">Gender</label>
+                    <select id="reg_gender" name="gender">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reg_contact">Contact number</label>
+                <input type="text" id="reg_contact" name="contact_no" placeholder="Contact number">
+            </div>
+            <div class="form-group">
+                <label for="reg_emergency">Emergency contact</label>
+                <input type="text" id="reg_emergency" name="emergency_contact" placeholder="Emergency contact">
+            </div>
+            <div class="form-group">
+                <label for="reg_role">I am a...</label>
+                <select id="reg_role" name="role">
+                    <option value="patient">Patient</option>
+                    <option value="caregiver">Caregiver</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-large form-submit">Create Account</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </div>
+</div>
+{% endblock %}

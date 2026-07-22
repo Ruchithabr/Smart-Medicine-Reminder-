@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<section class="hero-section hero-split">
+    <div class="hero-content reveal">
+        <span class="hero-eyebrow">💊 Trusted by families &amp; clinics</span>
+        <h1>MediRemind</h1>
+        <p class="tagline">Your Smart Medicine &amp; Health Companion</p>
+        <p class="description">
+            Never miss a dose again. Get intelligent reminders, track your health habits,
+            and stay on top of your medications – all in one place.
+        </p>
+        <div class="hero-buttons">
+            {% if session.user_id %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-large">Go to Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">Get Started Free</a>
+                <a href="#features" class="btn btn-outline">Learn More</a>
+            {% endif %}
+        </div>
+        <div class="hero-trust">
+            <span>✔ No credit card needed</span>
+            <span>✔ Setup in 2 minutes</span>
+        </div>
+    </div>
+    <div class="hero-visual reveal">
+        <div class="hero-visual-glow"></div>
+        <div class="floating-pill pill-1">💊</div>
+        <div class="floating-pill pill-2">⏰</div>
+        <div class="floating-pill pill-3">❤️</div>
+        <div class="hero-mockup">
+            <div class="mockup-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="mockup-title">Today's Schedule</span>
+            </div>
+            <div class="mockup-row">
+                <span class="mockup-time">8:00 AM</span>
+                <span class="mockup-med">Vitamin D — 1 tablet</span>
+                <span class="mockup-status taken">✔ Taken</span>
+            </div>
+            <div class="mockup-row">
+                <span class="mockup-time">1:00 PM</span>
+                <span class="mockup-med">Amoxicillin — 500mg</span>
+                <span class="mockup-status upcoming">Upcoming</span>
+            </div>
+            <div class="mockup-row">
+                <span class="mockup-time">9:00 PM</span>
+                <span class="mockup-med">Blood Pressure — 1 tablet</span>
+                <span class="mockup-status upcoming">Upcoming</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-bar reveal">
+    <div class="stat-item">
+        <span class="stat-number" data-count="{{ stats.total_patients }}">0</span>
+        <span class="stat-label">Patients using MediRemind</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number" data-count="{{ stats.adherence_pct }}">0</span><span class="stat-suffix">%</span>
+        <span class="stat-label">Overall adherence rate</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number" data-count="{{ stats.total_care_team }}">0</span>
+        <span class="stat-label">Caregivers &amp; doctors on board</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number" data-count="{{ stats.total_doses }}">0</span>
+        <span class="stat-label">Doses tracked so far</span>
+    </div>
+</section>
+{% if stats.total_patients < 5 %}
+<p class="stats-note reveal">🌱 MediRemind is just getting started — these numbers grow with every person who joins.</p>
+{% endif %}
+
+<section id="features" class="features-section">
+    <h2 class="reveal">Why MediRemind?</h2>
+    <p class="section-subtitle reveal">Everything you need to stay consistent with your health routine.</p>
+    <div class="features-grid">
+        <div class="feature-card reveal">
+            <div class="feature-icon">💊</div>
+            <h3>Medicine Reminders</h3>
+            <p>Set up personalized reminders for all your medicines – tablets, syrups, ointments, and more.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="feature-icon">🤖</div>
+            <h3>AI Predictions</h3>
+            <p>Our AI analyzes your history to predict potential missed doses and suggests proactive measures.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="feature-icon">📊</div>
+            <h3>Adherence Reports</h3>
+            <p>View weekly compliance reports and download PDFs to share with your doctor or caregiver.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="feature-icon">💧</div>
+            <h3>Health Habits</h3>
+            <p>Track water intake, exercise, and sleep – build a healthier routine alongside your medication schedule.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="feature-icon">👥</div>
+            <h3>Caregiver &amp; Doctor Access</h3>
+            <p>Caregivers and doctors can monitor patient adherence and intervene when needed.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="feature-icon">🔔</div>
+            <h3>Real‑time Alerts</h3>
+            <p>Get browser notifications with sound, and snooze them if you need a few extra minutes.</p>
+        </div>
+    </div>
+</section>
+
+<section class="steps-section">
+    <h2 class="reveal">How it works</h2>
+    <div class="steps-grid">
+        <div class="step-card reveal">
+            <div class="step-number">1</div>
+            <h3>Create your account</h3>
+            <p>Sign up in seconds as a patient, caregiver, or doctor.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">2</div>
+            <h3>Add your medicines</h3>
+            <p>Enter dosage, timing, and frequency — we handle the rest.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">3</div>
+            <h3>Get reminded</h3>
+            <p>Receive timely alerts so you never miss a dose again.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">4</div>
+            <h3>Track progress</h3>
+            <p>Review reports and share adherence trends with your doctor.</p>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <h2 class="reveal">Loved by patients &amp; caregivers</h2>
+    <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+            <p>"MediRemind helped me finally stick to my blood pressure medication schedule. The reminders actually work!"</p>
+            <div class="testimonial-author">— Asha K., Patient</div>
+        </div>
+        <div class="testimonial-card reveal">
+            <p>"As a caregiver for my father, being able to check his adherence remotely gives me real peace of mind."</p>
+            <div class="testimonial-author">— Ramesh N., Caregiver</div>
+        </div>
+        <div class="testimonial-card reveal">
+            <p>"The adherence reports save me so much time during consultations. Great tool for patient care."</p>
+            <div class="testimonial-author">— Dr. Priya S., Physician</div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section reveal">
+    <h2>Ready to take control of your health?</h2>
+    <p>Join thousands of users who trust MediRemind to keep them on track.</p>
+    {% if session.user_id %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-large">Go to Dashboard</a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">Create Your Account</a>
+    {% endif %}
+</section>
+{% endblock %}

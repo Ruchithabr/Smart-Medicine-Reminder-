@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-page">
+    <h2>👤 My Profile</h2>
+    <form method="POST" class="form-card">
+        <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" value="{{ user[3] }}" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="{{ user[4] or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="M" {% if user[5] == 'M' %}selected{% endif %}>Male</option>
+                    <option value="F" {% if user[5] == 'F' %}selected{% endif %}>Female</option>
+                    <option value="O" {% if user[5] == 'O' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="contact_no">Contact Number</label>
+            <input type="text" id="contact_no" name="contact_no" value="{{ user[6] or '' }}">
+        </div>
+        <div class="form-group">
+            <label for="emergency_contact">Emergency Contact</label>
+            <input type="text" id="emergency_contact" name="emergency_contact" value="{{ user[7] or '' }}">
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">Update Profile</button>
+    </form>
+    <p><a href="/dashboard">← Back to Dashboard</a></p>
+</div>
+{% endblock %}
